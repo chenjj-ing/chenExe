@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.mapper.ExampleMaper">
+    <!-- bean -->
+    <resultMap id="BaseResultMap" type="com.example.demo.dao.bean.Student">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="birth" property="birth" jdbcType="DATE"/>
+        <result column="creatTime" property="creatTime" jdbcType="DATE"/>
+    </resultMap>
+    <select id="selectStudent" resultMap="BaseResultMap">
+        select * from student s
+        where
+        <if test="name != null">
+            s.name like concat('%', concat(#{name}, '%'))
+        </if>
+        order by s.id desc
+    </select>
+
+    <insert id="bathAddStudent" parameterType="java.util.List">
+        insert into student (name,birth) values
+        <foreach collection="students" item="item" separator="," close=";">
+            (#{item.name}, #{item.birth})
+        </foreach>
+    </insert>
+
+    <update id="updateStudent">
+        update student
+        set name = #{name}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteStudent">
+        delete from student
+        where id = #{id}
+    </delete>
+
+</mapper>

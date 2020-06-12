@@ -1,0 +1,57 @@
+server:
+  port: 8080
+
+# 激活指定配置块
+# 如不激活配置运行jar包指定配置文件命令：java -jar name.jar --spring.profiles.active=dev
+# java -jar name.jar spring.config.location = D:\\ 该命令可以指定jar包外的配置文件（优先级更高），和jar包内的配置文件同时生效。
+spring:
+  profiles:
+    active: dev
+
+# 三个横杠区分配置块
+---
+server:
+  port: 10086
+spring:
+  profiles: dev
+  datasource:
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://db.hzero.org:3306/test?serverTimezone=UTC&useSSL=true
+
+person:
+  name: 张三
+  age: 18
+  boss: false
+  birth: 2000/10/01
+  map: {k1: 1,k2: 2}
+  list:
+    - ${random.int}
+    - 2
+    - 3
+  pet:
+    name: ${person.name}_小黑
+    kind: dog
+
+
+logging:
+  # 日志级别
+  level:
+    com: info
+  # 日志文件路径
+  file:
+    name: /springbootExe/log/name.log
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+---
+server:
+  port: 8089
+spring:
+  profiles: prod
+
+
